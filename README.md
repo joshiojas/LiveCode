@@ -18,7 +18,7 @@ LiveCode is a command-line tool written in Go that allows you to run a command w
 curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/install.sh | bash
 ```
 
-## Deletion of Pre-built Binaries
+### Deletion of Pre-built Binaries
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/uninstall.sh | bash
@@ -46,5 +46,5 @@ curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/uninstall.s
 ## Usage
 
 ```bash
-LiveCode -cmd "<your-command>" [arguments]
+livecode -cmd "<your-command>" [arguments]
 ```
