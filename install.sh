@@ -24,6 +24,7 @@ download_binary() {
 
     echo "Downloading LiveCode for ${os_name} (${machine_type})..."
     curl -LO "${BINARY_URL}"
+    mv "${BINARY_NAME}_${os_ext}" "${BINARY_NAME}"
     chmod +x "${BINARY_NAME}"
 }
 

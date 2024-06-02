@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"strings"
 	"sync"
 	"syscall"
 
@@ -17,6 +18,7 @@ import (
 func parseArgs() (string, []string) {
     cmdPtr := flag.String("cmd", "", "Command to run ")
     updatePtr := flag.Bool("update", false, "Update LiveCode")
+    baseCmd := flag.String("base", "", "Base command to run")
     flag.Parse()
 
     if *updatePtr  {
@@ -34,10 +36,41 @@ func parseArgs() (string, []string) {
 
         fmt.Println("Update complete")
         os.Exit(0)
-    } else if *cmdPtr == "" {
+    } 
+    if *cmdPtr == "" {
         fmt.Println("Error: -cmd flag is required")
         flag.Usage()
         os.Exit(1)
+    }
+
+    if *baseCmd != "" {
+        c := *baseCmd
+        fmt.Println("Running base command...")
+        cmd := exec.Command(strings.Split(c, " ")[0], strings.Split(c, " ")[1:]...)
+        cmd.Stdout = os.Stdout
+        cmd.Stderr = os.Stderr
+        fmt.Println("Running command: ", cmd.String())
+        ptmx, err := pty.Start(cmd)
+        if err != nil {
+            log.Fatal(err)
+        }
+        defer ptmx.Close()
+
+        go io.Copy(os.Stdout, ptmx)
+        go io.Copy(ptmx, os.Stdin)
+        // Create a channel to signal when the command has finished
+        done := make(chan error, 1) 
+        
+        // Wait for the command to finish in a goroutine
+        go func() {
+            done <- cmd.Wait() // Send the error (if any) when done
+        }()
+
+        for <-done != nil {
+            fmt.Println("Error running base command")
+            os.Exit(1)
+        }
+        
     }
 
     return *cmdPtr, flag.Args()
