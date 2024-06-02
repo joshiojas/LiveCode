@@ -2,17 +2,28 @@
 
 # Installation Script for LiveCode
 
-# Constants
-LIVE_CODE_URL="https://github.com/joshiojas/LiveCode/releases/download/macos/LiveCode"
+# Functions
+
+LIVE_CODE_BASE_URL="https://raw.githubusercontent.com/joshiojas/LiveCode/main/builds/"
 BINARY_NAME="livecode"
-INSTALL_DIR="${HOME}/.local/bin"
+INSTALL_DIR="${HOME}/bin"
 
 # Functions
 
 download_binary() {
-    echo "Downloading LiveCode..."
-    curl -LO "${LIVE_CODE_URL}"
-    mv "LiveCode" "${BINARY_NAME}"
+    os_name="$(uname -s)"
+    case "${os_name}" in
+        Linux*)     os_ext="linux" ;;
+        Darwin*)    os_ext="macos" ;;
+        MINGW64*)   os_ext="windows"; BINARY_NAME="${BINARY_NAME}.exe" ;;
+        *)          echo "Unsupported operating system: ${os_name}" && exit 1 ;;
+    esac
+    machine_type="$(uname -m)"
+
+    BINARY_URL="${LIVE_CODE_BASE_URL}/${BINARY_NAME}_${os_ext}"
+
+    echo "Downloading LiveCode for ${os_name} (${machine_type})..."
+    curl -LO "${BINARY_URL}"
     chmod +x "${BINARY_NAME}"
 }
 
