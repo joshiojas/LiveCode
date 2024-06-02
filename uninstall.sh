@@ -3,7 +3,7 @@
 # Uninstallation Script for LiveCode
 
 # Constants
-BINARY_NAME="LiveCode"
+BINARY_NAME="livecode"
 INSTALL_DIR="${HOME}/.local/bin"
 
 # Functions

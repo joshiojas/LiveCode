@@ -4,7 +4,7 @@
 
 # Constants
 LIVE_CODE_URL="https://github.com/joshiojas/LiveCode/releases/download/macos/LiveCode"
-BINARY_NAME="LiveCode"
+BINARY_NAME="livecode"
 INSTALL_DIR="${HOME}/.local/bin"
 
 # Functions
@@ -12,6 +12,7 @@ INSTALL_DIR="${HOME}/.local/bin"
 download_binary() {
     echo "Downloading LiveCode..."
     curl -LO "${LIVE_CODE_URL}"
+    mv "LiveCode" "${BINARY_NAME}"
     chmod +x "${BINARY_NAME}"
 }
 
