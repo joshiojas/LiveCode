@@ -2,8 +2,6 @@ name: Build and Release LiveCode
 
 on:
   push:
-    tags:
-      - 'v*'  # Trigger on version tags (e.g., v1.0.0)
 
 jobs:
   build:
