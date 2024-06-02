@@ -25,6 +25,7 @@ jobs:
         env:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
+          GOPATH: ${{ github.workspace }}
         run: |
           go get .
           # Add -ldflags="-s -w" to strip and reduce binary size
