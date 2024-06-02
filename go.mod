@@ -1,6 +1,6 @@
 module joshiojas/LiveCode
 
-go 1.22.2
+go 1.22
 
 require (
 	github.com/creack/pty v1.1.21

@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        goos: [linux, darwin, windows]  # Target operating systems
-        goarch: [amd64, arm64]         # Target architectures
+        goos: [linux, darwin, windows] # Target operating systems
+        goarch: [amd64, arm64] # Target architectures
 
     steps:
       - name: Checkout Code
@@ -26,6 +26,7 @@ jobs:
           GOOS: ${{ matrix.goos }}
           GOARCH: ${{ matrix.goarch }}
         run: |
+          go get .
           # Add -ldflags="-s -w" to strip and reduce binary size
           go build -o LiveCode-${{ matrix.goos }}-${{ matrix.goarch }} -ldflags="-s -w"
 
@@ -49,5 +50,3 @@ jobs:
           asset_path: ./LiveCode-${{ matrix.goos }}-${{ matrix.goarch }}
           asset_name: LiveCode-${{ matrix.goos }}-${{ matrix.goarch }}
           asset_content_type: application/octet-stream
-
-
