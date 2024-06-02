@@ -48,3 +48,10 @@ curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/uninstall.s
 ```bash
 livecode -cmd "<your-command>" [arguments]
 ```
+
+if you want more information about the command you can use the following command:
+
+```bash
+
+livecode --help
+```

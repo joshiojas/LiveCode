@@ -5,7 +5,7 @@ mkdir -p builds
 
 # Build for all architectures
 #Macos 
-GOOS=darwin GOARCH=arm64 go build -o builds/livecode_macos
+GOOS=darwin GOARCH=arm64 go build -o downloads/livecode_macos
 #Linux
 GOOS=linux GOARCH=amd64 go build -o downloads/livecode_linux
 #Windows
