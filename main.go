@@ -15,10 +15,26 @@ import (
 )
 
 func parseArgs() (string, []string) {
-    cmdPtr := flag.String("cmd", "", "Command to run (required)")
+    cmdPtr := flag.String("cmd", "", "Command to run ")
+    updatePtr := flag.Bool("update", false, "Update LiveCode")
     flag.Parse()
 
-    if *cmdPtr == "" {
+    if *updatePtr  {
+        fmt.Println("Updating...")
+        
+        cmd := exec.Command("curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/uninstall.sh | bash")
+        cmd.Stdout = os.Stdout
+        cmd.Stderr = os.Stderr
+        cmd.Run()
+        fmt.Println("Uninstall complete")
+        cmd = exec.Command("curl -fsSL https://raw.githubusercontent.com/joshiojas/LiveCode/main/install.sh | bash")
+        cmd.Stdout = os.Stdout
+        cmd.Stderr = os.Stderr
+        cmd.Run()
+
+        fmt.Println("Update complete")
+        os.Exit(0)
+    } else if *cmdPtr == "" {
         fmt.Println("Error: -cmd flag is required")
         flag.Usage()
         os.Exit(1)
@@ -97,7 +113,7 @@ func runCommand(wg *sync.WaitGroup, run string, args []string, restart chan bool
         defer ptmx.Close()
 
         go io.Copy(os.Stdout, ptmx)
-
+        go io.Copy(ptmx, os.Stdin)
         // Create a channel to signal when the command has finished
         done := make(chan error, 1) 
         
